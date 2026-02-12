@@ -1,57 +1,276 @@
 <% layout("/layouts/boilerplate") %>
-  <div class="row mt-3">
-    <div class="col-8 offset-2">
-      <br /> <br />
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <br /><br />
     <h3>Create a New Listing</h3>
+
     <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+
       <div class="ab-3">
-          <label for="title" class="form-label">Title</label>
-          <input name="listing[title]" placeholder="enter title" type="text" class="form-control" required/>
-          <div class="valid-feedback">Title looks good.</div>
+        <label for="title" class="form-label">Title</label>
+        <input name="listing[title]" placeholder="enter title" type="text" class="form-control" required />
+        <div class="valid-feedback">Title looks good.</div>
       </div>
+
       <div class="ab-3">
         <label for="description" class="form-label">Description</label>
-       <textarea
-        name="listing[description]"
-        class="form-control" required
-      ></textarea> 
-      <div class="invalid-feedback">Please enter a short description.</div>
+        <textarea name="listing[description]" class="form-control" required></textarea>
+        <div class="invalid-feedback">Please enter a short description.</div>
       </div>
+
       <div class="ab-3">
         <label for="image" class="form-label">Upload Listing Image</label>
         <input
-        name="listing[image]"
-        placeholder="enter image URL/Link"
-        type="file"
-        class="form-control"
-        required
-      />
+          name="listing[image]"
+          type="file"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please upload an image.</div>
       </div>
-    <div class="row">
-      <div class="ab-3 col-md-4">
-        <label for="price" class="form-label">Price</label>
-        <input name="listing[price]" placeholder="enter price"  class="form-control" required/>
-        <div class="invalid-feedback">Please enter a valid price.</div>
+
+      <div class="row">
+        <div class="ab-3 col-md-4">
+          <label for="price" class="form-label">Price</label>
+          <input
+            name="listing[price]"
+            placeholder="enter price"
+            type="number"
+            min="0"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid price.</div>
+        </div>
+
+        <div class="ab-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input name="listing[country]" placeholder="enter country" type="text" class="form-control" required />
+          <div class="invalid-feedback">Please enter a valid country.</div>
+        </div>
       </div>
-      <div class="ab-3 col-md-8">
-        <label for="country" class="form-label">Country</label>
-        <input name="listing[country]" placeholder="enter country" type="text" class="form-control" required/>
-        <div class="invalid-feedback">Please enter a valid country.</div>
-      </div>
-    </div>  
-      
+
       <div class="ab-3">
         <label for="location" class="form-label">Location</label>
         <input
-        name="listing[location]"
-        placeholder="enter location"
-        type="text"
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">Please enter a valid location.</div>
+          name="listing[location]"
+          placeholder="enter location"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid location.</div>
       </div>
+    <!-- ✅ Categories (choose multiple) -->
+<div class="ab-3">
+  <label class="form-label">Categories (choose multiple)</label>
+
+  <div class="row">
+    <div class="col-md-4 form-check">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="rooms" id="cat_rooms">
+      <label class="form-check-label" for="cat_rooms">Rooms</label>
+    </div>
+
+    <div class="col-md-4 form-check">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="iconic" id="cat_iconic">
+      <label class="form-check-label" for="cat_iconic">Iconic Cities</label>
+    </div>
+
+    <div class="col-md-4 form-check">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="mountains" id="cat_mountains">
+      <label class="form-check-label" for="cat_mountains">Mountains</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="castles" id="cat_castles">
+      <label class="form-check-label" for="cat_castles">Castles</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="amazing_pools" id="cat_pools">
+      <label class="form-check-label" for="cat_pools">Amazing pools</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="camping" id="cat_camping">
+      <label class="form-check-label" for="cat_camping">Camping</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="farms" id="cat_farms">
+      <label class="form-check-label" for="cat_farms">Farms</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="arctic" id="cat_arctic">
+      <label class="form-check-label" for="cat_arctic">Arctic</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="domes" id="cat_domes">
+      <label class="form-check-label" for="cat_domes">Domes</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="boats" id="cat_boats">
+      <label class="form-check-label" for="cat_boats">Boats</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="beach" id="cat_beach">
+      <label class="form-check-label" for="cat_beach">Beach</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="city" id="cat_city">
+      <label class="form-check-label" for="cat_city">City</label>
+    </div>
+
+    <div class="col-md-4 form-check mt-2">
+      <input class="form-check-input" type="checkbox" name="listing[categories][]" value="luxury" id="cat_luxury">
+      <label class="form-check-label" for="cat_luxury">Luxury</label>
+    </div>
+  </div>
+
+  <small class="text-muted">Trending will show all listings automatically.</small>
+</div>
+
+
+      <!-- ✅ Optional structured location (good for prediction) -->
+      <div class="row">
+        <div class="ab-3 col-md-4">
+          <label class="form-label">City (optional)</label>
+          <input name="listing[city]" placeholder="e.g. Kolkata" type="text" class="form-control" />
+        </div>
+        <div class="ab-3 col-md-4">
+          <label class="form-label">State (optional)</label>
+          <input name="listing[state]" placeholder="e.g. West Bengal" type="text" class="form-control" />
+        </div>
+        <div class="ab-3 col-md-4">
+          <label class="form-label">Pincode (optional)</label>
+          <input name="listing[pincode]" placeholder="e.g. 700001" type="text" class="form-control" />
+        </div>
+      </div>
+
+      <!-- ✅ Property details -->
+      <div class="row">
+        <div class="ab-3 col-md-6">
+          <label class="form-label">Property Type</label>
+          <select class="form-select" name="listing[propertyType]" required>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="villa">Villa</option>
+            <option value="hotel">Hotel</option>
+            <option value="hostel">Hostel</option>
+            <option value="guesthouse">Guesthouse</option>
+            <option value="other" selected>Other</option>
+          </select>
+          <div class="invalid-feedback">Please select a property type.</div>
+        </div>
+
+        <div class="ab-3 col-md-6">
+          <label class="form-label">Room Type</label>
+          <select class="form-select" name="listing[roomType]" required>
+            <option value="entire_place" selected>Entire place</option>
+            <option value="private_room">Private room</option>
+            <option value="shared_room">Shared room</option>
+          </select>
+          <div class="invalid-feedback">Please select a room type.</div>
+        </div>
+      </div>
+
+      <!-- ✅ Capacity / rooms -->
+      <div class="row">
+        <div class="ab-3 col-md-3">
+          <label class="form-label">Guests</label>
+          <input class="form-control" type="number" name="listing[guests]" min="1" value="1" required />
+        </div>
+
+        <div class="ab-3 col-md-3">
+          <label class="form-label">Bedrooms</label>
+          <input class="form-control" type="number" name="listing[bedrooms]" min="0" value="0" required />
+        </div>
+
+        <div class="ab-3 col-md-3">
+          <label class="form-label">Beds</label>
+          <input class="form-control" type="number" name="listing[beds]" min="0" value="0" required />
+        </div>
+
+        <div class="ab-3 col-md-3">
+          <label class="form-label">Bathrooms</label>
+          <input class="form-control" type="number" name="listing[bathrooms]" min="0" value="0" required />
+        </div>
+      </div>
+
+      <!-- ✅ Amenities -->
+      <div class="ab-3">
+        <label class="form-label">Amenities</label>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="wifi" id="am_wifi">
+              <label class="form-check-label" for="am_wifi">WiFi</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="ac" id="am_ac">
+              <label class="form-check-label" for="am_ac">AC</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="tv" id="am_tv">
+              <label class="form-check-label" for="am_tv">TV</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="kitchen" id="am_kitchen">
+              <label class="form-check-label" for="am_kitchen">Kitchen</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="parking" id="am_parking">
+              <label class="form-check-label" for="am_parking">Parking</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="washing_machine" id="am_wm">
+              <label class="form-check-label" for="am_wm">Washing Machine</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="workspace" id="am_workspace">
+              <label class="form-check-label" for="am_workspace">Workspace</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="power_backup" id="am_power">
+              <label class="form-check-label" for="am_power">Power Backup</label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="hot_water" id="am_hotwater">
+              <label class="form-check-label" for="am_hotwater">Hot Water</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ab-3">
+        <label class="form-label">Other amenities (optional)</label>
+        <input
+          class="form-control"
+          type="text"
+          name="listing[extraAmenities]"
+          placeholder="e.g. balcony, bathtub, breakfast"
+        />
+      </div>
+
       <button class="btn btn-dark add-btn mt-3">Add</button>
     </form>
-  </div>  
+  </div>
 </div>
