@@ -29,17 +29,24 @@
         <div class="invalid-feedback">Please upload an image.</div>
       </div>
 
-      <div class="row">
-        <div class="ab-3 col-md-4">
-          <label for="price" class="form-label">Price</label>
-          <input
-            name="listing[price]"
-            placeholder="enter price"
-            type="number"
-            min="0"
-            class="form-control"
-            required
-          />
+     <div class="mb-3">
+  <label class="form-label">Price</label>
+  <input name="listing[price]" type="number" class="form-control" required />
+</div>
+
+<!-- AI Price Suggestion UI -->
+<div class="mt-2">
+  <button type="button" class="btn btn-outline-primary" id="aiSuggestBtn">
+    Suggest Price (AI)
+  </button>
+
+  <div id="aiResult" class="mt-2" style="display:none;">
+    <div class="alert alert-info mb-2" id="aiText"></div>
+    <button type="button" class="btn btn-success btn-sm" id="aiApplyBtn">
+      Apply Recommended Price
+    </button>
+  </div>
+</div>
           <div class="invalid-feedback">Please enter a valid price.</div>
         </div>
 
@@ -272,5 +279,6 @@
 
       <button class="btn btn-dark add-btn mt-3">Add</button>
     </form>
+    <script src="/js/aiPrice.js"></script>
   </div>
 </div>
