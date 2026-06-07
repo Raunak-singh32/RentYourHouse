@@ -16,6 +16,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const Listing = require("./models/listing");
 const bookingRoutes = require('./routes/bookings');
 
 // ✅ Require all routes at top
@@ -37,7 +38,9 @@ main()
 async function main() {
   await mongoose.connect(dbUrl);
 }
-
+app.get('/', (req, res) => {
+  res.redirect('/listings');
+});
 // ✅ View engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
