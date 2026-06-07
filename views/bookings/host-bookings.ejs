@@ -1,0 +1,47 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3>Booking Requests</h3>
+        
+        <% if(bookings.length === 0) { %>
+            <div class="alert alert-info">
+                No bookings yet. <a href="/listings/new">List a property</a>
+            </div>
+        <% } else { %>
+            <% for(let booking of bookings) { %>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="<%= booking.listing.image.url %>" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= booking.listing.title %></h5>
+                                <p class="card-text">
+                                    <b>Guest:</b> <%= booking.guest.username %><br>
+                                    <b>Amount:</b> ₹<%= booking.amount.toLocaleString("en-IN") %><br>
+                                    <b>Status:</b> 
+                                    <span class="badge bg-<%= 
+                                        booking.status === 'paid' ? 'warning' : 
+                                        booking.status === 'confirmed' ? 'success' : 
+                                        booking.status === 'completed' ? 'info' : 'secondary' 
+                                    %>"><%= booking.status %></span><br>
+                                    <b>Booked on:</b> <%= booking.createdAt.toDateString() %>
+                                </p>
+                                
+                                <% if(booking.status === 'paid') { %>
+                                    <form action="/bookings/<%= booking._id %>/confirm" method="POST" class="d-inline">
+                                        <button class="btn btn-success btn-sm">Confirm Booking</button>
+                                    </form>
+                                <% } %>
+                                
+                                <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary btn-sm">View Property</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+</div>

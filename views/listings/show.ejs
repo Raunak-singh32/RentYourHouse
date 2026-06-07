@@ -21,7 +21,7 @@
       <p class="card-text"><%= listing.location %></p>
       <p class="card-text"><%= listing.country %></p>
 
-      <!-- ✅ New details -->
+      <!-- New details -->
       <hr />
 
       <p class="card-text">
@@ -58,6 +58,18 @@
           <% if(listing.pincode) { %> (<%= listing.pincode %>) <% } %>
         </p>
       <% } %>
+
+      <!-- ✅ BOOKING BUTTON - Inside card-body -->
+      <% if(currUser && !currUser._id.equals(listing.owner._id)) { %>
+        <hr />
+        <div class="text-center mt-3">
+          <button onclick="handlePayment('<%= listing._id %>', <%= Number(listing.price) %>)" class="btn btn-success btn-lg w-100">
+            <i class="fas fa-calendar-check"></i> Book Now - &#8377;<%= listing.price.toLocaleString("en-IN") %>
+          </button>
+          <small class="text-muted d-block mt-2">Secure payment via Razorpay</small>
+        </div>
+      <% } %>
+
     </div>
   </div>
 
@@ -124,4 +136,83 @@
       <% } %>
     </div>
   </div>
+
+  <!-- ✅ RAZORPAY SCRIPT - Inside main row, at bottom -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <script>
+  async function handlePayment(listingId, amount) {
+    amount = Number(amount);
+    console.log('Amount:', amount, 'Type:', typeof amount);
+    
+    try {
+      const response = await fetch('/payments/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          amount: amount, 
+          receipt: `booking_${listingId}_${Date.now()}` 
+        })
+      });
+      
+      const orderData = await response.json();
+      
+      if (!orderData.success) {
+        alert('Failed to create order: ' + (orderData.error || 'Unknown error'));
+        return;
+      }
+
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'RentYourHouse',
+        description: 'Property Booking Payment',
+        order_id: orderData.orderId,
+        handler: async function (response) {
+          const verifyResponse = await fetch('/payments/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+               listingId: listingId,        
+               amount: orderData.amount 
+            })
+          });
+          
+          const verifyData = await verifyResponse.json();
+          
+          if (verifyData.success) {
+            alert('Payment Successful! Booking confirmed.');
+            window.location.href = '/bookings';
+          } else {
+            alert('Payment verification failed: ' + verifyData.message);
+          }
+        },
+        prefill: {
+          name: '<%= currUser ? currUser.username : "" %>',
+          email: '<%= currUser ? currUser.email : "" %>',
+          contact: '<%= currUser ? (currUser.phone || "") : "" %>'
+        },
+        theme: {
+          color: '#F37254'
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+
+      rzp.on('payment.failed', function (response) {
+        alert('Payment Failed: ' + response.error.description);
+      });
+
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Something went wrong. Please try again.');
+    }
+  }
+  </script>
+
 </div>

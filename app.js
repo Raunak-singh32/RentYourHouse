@@ -5,7 +5,6 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL;
 const path = require("path");
 const methodOverride = require("method-override");
@@ -17,11 +16,14 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const bookingRoutes = require('./routes/bookings');
 
+// ✅ Require all routes at top
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const aiRoutes = require("./routes/ai");
+const paymentRoutes = require('./routes/payments');
 
 // ✅ DB connect
 main()
@@ -41,13 +43,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsmate);
 
-// ✅ Middlewares
-app.use(express.json()); // ✅ IMPORTANT: for JSON requests (Thunder Client)
+// ✅ Middlewares - MUST be before routes
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// ✅ AI routes (must be AFTER body parsers)
+// ✅ AI routes (after body parsers)
 app.use("/api", aiRoutes);
 
 // ✅ Session store
@@ -104,12 +106,14 @@ app.get("/demouser", async (req, res) => {
   res.send(registeredUser);
 });
 
-// ✅ App routes
+// ✅ App routes - ALL routes here
+app.use('/payments', paymentRoutes);  // ✅ Payment routes
+app.use('/bookings', bookingRoutes);
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-// ✅ 404 handler
+// ✅ 404 handler - MUST be last
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
