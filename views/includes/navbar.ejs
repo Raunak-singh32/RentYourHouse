@@ -1,57 +1,105 @@
 <style>
-  .search-btn{
-    background-color: #fe424d;
-    color: white;
-     border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+  .navbar-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.8rem 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
-  .search-btn:hover{
-    background-color: #fe424d;
-    color: white;
+  
+  .navbar-custom .navbar-brand {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.5rem;
   }
-  .search-btn i{
-    display: inline;
-    margin-right: 0.5rem;
+  
+  .navbar-custom .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    transition: all 0.3s;
+    border-radius: 20px;
+    padding: 0.5rem 1rem !important;
   }
-  .search-inp{
+  
+  .navbar-custom .nav-link:hover {
+    color: white !important;
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+  }
+  
+  .navbar-custom .btn-add {
+    background: #fe424d;
+    color: white !important;
     border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
+    padding: 0.5rem 1.5rem !important;
+    font-weight: 600;
+  }
+  
+  .navbar-custom .btn-add:hover {
+    background: #ff6b6b;
+    transform: scale(1.05);
+  }
+  
+  .search-nav {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    padding: 0.5rem 1rem;
+  }
+  
+  .search-nav::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
+  
+  .search-btn-nav {
+    background: white;
+    color: #667eea;
+    border: none;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
   }
 </style>
-<<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+
+<nav class="navbar navbar-expand-md navbar-custom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-house-chimney"></i> RentYourHouse
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav mx-auto">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2 search-nav" type="search" placeholder="Search destinations..." />
+          <button class="btn search-btn-nav" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+      
       <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
-      </div>
-      <div class="nabar-nav ms-auto">
-         <form class="d-flex" role="search">
-      <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations" />
-      <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Add your home</a>
-        
-        <!-- My Bookings (only when logged in) -->
-        <% if(currUser) { %>
-        <a class="nav-link" href="/bookings/my-bookings"><b>My Bookings</b></a>
-        <a class="nav-link" href="/bookings/host-bookings"><b>Host Bookings</b></a>
-        <% } %>
+        <a class="nav-link btn-add" href="/listings/new">
+          <i class="fa-solid fa-plus"></i> Add your home
+        </a>
         
         <% if(!currUser) { %>
-        <a class="nav-link" href="/signup"><b>Sign up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
-        <% } %> 
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } %>
         
-        <% if(currUser) {%>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
-        <% } %>  
+        <% if(currUser) { %>
+          <a class="nav-link" href="/bookings/my-bookings">
+            <i class="fa-solid fa-calendar-check"></i> My Bookings
+          </a>
+          <a class="nav-link" href="/bookings/host-bookings">
+            <i class="fa-solid fa-list-check"></i> Host Bookings
+          </a>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } %>
       </div>
     </div>
   </div>
